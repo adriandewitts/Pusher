@@ -1,0 +1,13 @@
+development:
+  amazon_access_key: ""
+  amazon_secret: ""
+  bucket: ""
+  errbit_host: ""
+  errbit_key: ""
+
+production:
+  amazon_access_key: ""
+  amazon_secret: ""
+  bucket: ""
+  errbit_host: ""
+  errbit_key: ""

@@ -1,0 +1,21 @@
+
+en:
+  admin:
+    form:
+      notification: "Send"
+      device_notifications: Device Notifications
+    actions:
+      notify:
+        title: "Notify"
+        menu: "Notify"
+        breadcrumb: "Notify"
+        link: "Notify"
+        bulk_link: "Notify selected %{model_label_plural}"
+        done: "Notified"
+
+      device_notifications:
+        title: "Device Notifications"
+        menu: "Device Notifications"
+        breadcrumb: "Device Notifications"
+        link: "Device Notifications"
+ 

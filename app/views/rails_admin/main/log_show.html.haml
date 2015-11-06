@@ -1,0 +1,19 @@
+%div
+  .log-content
+    - count = 50
+    - lines_count = PushAdmin::LogViewer::lines_count
+    - start = PushAdmin::LogViewer::lines_count - 50
+    - start = start > 0 ? start : 0
+    - lines = PushAdmin::LogViewer::tail(count).reverse
+    
+    %p
+      %i
+        Last #{lines.size} lines of #{lines_count} lines
+    %p  
+      - lines.each_with_index do |line, i|
+        %br/
+        = "#{lines_count - i}. #{line}"    
+  .download-log
+    %a{:href=>url_for(params.merge({:format => :txt}))}
+      = t("admin.form.download_log")
+  

@@ -1,0 +1,68 @@
+%h4
+  = "Send notification to #{@abstract_model.pretty_name.downcase}" 
+  &ldquo;
+  %strong>= @model_config.with(:object => @object).object_label
+  \&rdquo;
+  %span>
+    
+
+= form_for(@object, 
+          :url => notify_path(:model_name => @abstract_model.to_param, :id => @object.id), 
+          :html => {:method => "post",:class => "form-horizontal denser"}) do
+  %input{:type => :hidden, :name => 'return_to', :value => (params[:return_to].presence || request.referer)}
+  %fieldset
+    .control-group.text_type.notification_field
+      %label.control-label{:for => "notification_alert"} Message
+      .controls
+        = text_area_tag "notification[alert]",@last_notification.try(:alert) || '', :size => "48x3"
+    .control-group.boolean_type.notification_field
+      %label.control-label{:for => "notification_instant"} Instant
+      .controls
+        = check_box_tag "notification[instant]", 1, true
+    
+    .control-group.text_type.notification_field
+      %label.control-label{:for => "notification_sound"} Sound
+      .controls
+        = text_field_tag "notification[sound]", @last_notification.try(:sound) || 'default'
+        
+    .control-group.integer_type.notification_field
+      %label.control-label{:for => "notification_badge"} Badge
+      .controls
+        %input{:id=>"notification_badge", :name=>"notification[badge]", :type=>"number", :value=>1}
+    .control-group.text_type.notification_field
+      %label.control-label{:for => "notification_payload"} Payload
+    - if @last_notification.try(:payload) && @last_notification.try(:payload).is_a?(Hash)      
+      - @last_notification.payload.each do |key, value|
+        .control-group.text_type.notification_field
+          %label.control-label{:for => "notification_payload_#{key}"}= key.titlecase
+          .controls
+            = text_field_tag "notification[payload][#{key}]", value
+    
+    .control-group.text_type.notification_field#div-more-payload
+      %label.control-label{:for => "add_field"} More Payload Field
+      .controls
+        = text_field_tag "new_field_name", "field_name"
+        = text_field_tag "new_field_value", ""
+        %a#more-payload-field{:href=>"javascript:void(0)", :onclick => "add_payload_field();"} Add
+        
+    - if @last_notification.try(:tags) 
+      .control-group.text_type.notification_field
+        %label.control-label{:for => "notification_tags"} Tags
+        - if @last_notification.tags.is_a?(Array) && !@last_notification.tags.empty?
+          - @last_notification.tags.each do |value|
+            .control-group.text_type.notification_field
+              .controls
+                = text_field_tag "notification[tags][]", value
+        - else
+          .control-group.text_type.notification_field
+            .controls
+              = text_field_tag "notification[tags][]", '123'    
+          
+          
+        
+  .form-actions
+    %button.btn.btn-primary{:type => "submit", :'data-disable-with' =>t("admin.form.notification")}      
+      = t("admin.form.notification")
+    %button.btn{:type => "submit", :name => "_continue", :'data-disable-with' => t("admin.form.cancel")}
+      %i.icon-remove
+      = t("admin.form.cancel")

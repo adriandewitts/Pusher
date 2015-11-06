@@ -1,0 +1,10 @@
+Hi there,
+
+The APNS certificate of the app <%=@app.name%> will expire on <%=  @app.certificate_expired_at.to_formatted_s(:long)%>.
+
+Please update the certificate at: <%= rails_admin.edit_url("apns~app", @app.id)%>
+
+Regards,
+
+Adrian
+

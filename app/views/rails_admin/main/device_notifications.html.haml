@@ -1,0 +1,32 @@
+%h4= I18n.t('admin.form.device_notifications')
+%table
+  %tr
+    %th
+
+    %th
+      App
+    %th
+      Alert
+    %th
+      Delivered at
+    %th
+      Error description
+
+  - @object.notifications.each do |noti|
+    %tr
+      %td{style: "padding-right: 10px;"}
+        %a.pjax{href: url_for(:action => "show", :model_name => noti.class.to_param, :id => noti.id), :'title' => "Show Notification"}
+          %i.icon-info-sign
+
+      %td{style: "padding-right: 10px;"}
+        = link_to(noti.app.try(:name), url_for(:action => "show", :model_name => noti.app.class.to_param, :id => noti.app.id), :class => 'pjax')
+
+      %td{style: "padding-right: 10px;"}
+        = noti.alert
+
+      %td{style: "padding-right: 10px;"}
+        = noti.delivered_at
+
+      %td{style: "padding-right: 10px;"}
+        = noti.error_description
+      
